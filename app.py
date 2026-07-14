@@ -1,4 +1,5 @@
 import streamlit as st
+from tabs import tab2_genes
 
 st.set_page_config(
     page_title="WheatPost",
@@ -13,9 +14,9 @@ st.markdown("**Post-GWAS Analysis Toolkit for Wheat (*Triticum aestivum*)**")
 st.sidebar.title("Settings")
 version = st.sidebar.radio(
     "Select Reference Version",
-    ["IWGSC RefSeq v1.0", "IWGSC RefSeq v2.1"]
+    ["v1.0", "v2.1"]
 )
-st.sidebar.info(f"Active: {version}")
+st.sidebar.info(f"Active: IWGSC RefSeq {version}")
 
 # Three tabs
 tab1, tab2, tab3 = st.tabs([
@@ -26,15 +27,11 @@ tab1, tab2, tab3 = st.tabs([
 
 with tab1:
     st.header("QTL Overlap Checker")
-    st.write("Check if your significant markers overlap with published wheat QTL.")
     st.info("Coming soon — Milestone 2")
 
 with tab2:
-    st.header("Gene Proximity Search")
-    st.write("Find all annotated genes within a defined window around your marker.")
-    st.info("Coming soon — Milestone 3")
+    tab2_genes.show(version)
 
 with tab3:
     st.header("Coordinate Liftover")
-    st.write("Convert marker positions between IWGSC RefSeq v1.0 and v2.1.")
-    st.info("Coming soon — Milestone 4")
+    st.info("Coming soon — Milestone 3")
