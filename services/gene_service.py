@@ -71,9 +71,15 @@ def get_nearby_genes(chrom: str, position: int, window_bp: int, version: str) ->
         return df
 
     # Calculate distance from marker to nearest gene edge
-    df["distance_bp"] = df.apply(
-        lambda row: 0 if row["start"] <= position <= row["end"]
-        else min(abs(position - row["start"]), abs(position - row["end"])),
+    def get_distance_and_status(row):
+        if row["start"] <= position <= row["end"]:
+            return 0, "Overlaps marker"
+        else:
+            dist = min(abs(position - row["start"]), abs(position - row["end"]))
+            return dist, "Near marker"
+
+    df[["distance_bp", "location"]] = df.apply(
+        lambda row: pd.Series(get_distance_and_status(row)),
         axis=1
     )
 
@@ -88,7 +94,8 @@ def get_nearby_genes(chrom: str, position: int, window_bp: int, version: str) ->
         "description": "Description",
         "gene_symbol": "Gene Symbol",
         "version":     "Reference Version",
-        "distance_bp": "Distance from Marker (bp)"
+        "distance_bp": "Distance from Marker (bp)",
+        "location":    "Location"
     })
 
     return df

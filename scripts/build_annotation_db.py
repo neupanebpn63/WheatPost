@@ -25,22 +25,27 @@ DB_PATH = os.path.join("database", "annotation.db")
 
 # ── Helper: parse GFF3 attributes column ─────────────────────
 def parse_attributes(attr_string):
-    """Extract gene_id, description, gene_symbol from GFF3 attributes."""
+    """Extract relevant fields from GFF3 attributes."""
     gene_id = ""
     description = ""
     gene_symbol = ""
 
-    # Extract ID
+    # ID
     id_match = re.search(r'ID=([^;]+)', attr_string)
     if id_match:
         gene_id = id_match.group(1).strip()
 
-    # Extract functional description
+    # Note (v1.0 may have this)
     desc_match = re.search(r'Note=([^;]+)', attr_string)
     if desc_match:
         description = desc_match.group(1).strip()
 
-    # Extract gene symbol if present
+    # previous_id (v2.1 — maps back to v1.0 gene ID)
+    prev_match = re.search(r'previous_id=([^;]+)', attr_string)
+    if prev_match and not description:
+        description = f"v1.0 ID: {prev_match.group(1).strip()}"
+
+    # gene_symbol
     sym_match = re.search(r'gene_symbol=([^;]+)', attr_string)
     if sym_match:
         gene_symbol = sym_match.group(1).strip()
