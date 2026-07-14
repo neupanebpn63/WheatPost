@@ -51,7 +51,7 @@ Convert wheat gene IDs across IWGSC RefSeq versions (v1.0 ↔ v1.1 ↔ v2.1). Su
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/WheatPost.git
+git clone https://github.com/neupanebpn/WheatPost.git
 cd WheatPost
 ```
 
@@ -110,7 +110,7 @@ Authors: Helene Rimbert, Frédéric Choulet
 Date: September 2020
 
 ### WheatQTLdb
-Singh, K., Saini, D.K., Saripalli, G. et al. WheatQTLdb V2.0: a supplement to the database for wheat QTL. *Mol Breeding* 42, 56 (2022).
+Singh K, Saini DK, Saripalli G, Batra R, Gautam T, Singh R, Pal S, Kumar M, Jan I, Singh S, Kumar A, Sharma H, Chaudhary J, Kumar K, Kumar S, Singh VK, Singh VP, Kumar D, Sharma S, Kumar S, Kumar R, Sharma S, Gaurav SS, Sharma PK, Balyan HS, Gupta PK. WheatQTLdb V2.0: a supplement to the database for wheat QTL. Mol Breed. 2022 Sep 16;42(10):56. doi: 10.1007/s11032-022-01329-1. PMID: 37313017; PMCID: PMC10248696.
 
 ---
 
@@ -118,7 +118,7 @@ Singh, K., Saini, D.K., Saripalli, G. et al. WheatQTLdb V2.0: a supplement to th
 
 If you use WheatPost in your research, please cite:
 
-> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. https://github.com/YOUR_USERNAME/WheatPost
+> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. https://github.com/neupanebpn63/WheatPost
 
 ---
 
