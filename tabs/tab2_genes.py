@@ -182,15 +182,46 @@ def _run_search(markers: list, window_bp: int, version: str):
         f"**{len(markers)} marker(s)**"
     )
 
-    # ── Display with highlighting ────────────────────────────
-    styled = combined.style.apply(highlight_inside_gene, axis=1)
-    st.write(
-        combined.to_html(escape=False, index=False),
-        unsafe_allow_html=True
+    # ── Display with highlighting and hyperlinks ─────────────
+    display_df = combined.copy()
+
+    # Add Ensembl Gramene hyperlinks
+    display_df["Gene ID"] = display_df["Gene ID"].apply(
+        lambda gid: f'<a href="https://ensembl.gramene.org/Triticum_aestivum_refseqv2/Gene/Summary?g={gid}" target="_blank">{gid}</a>'
     )
 
+    # Build styled HTML table
+    rows_html = ""
+    for _, row in display_df.iterrows():
+        if row["Location"] == "Overlaps marker":
+            row_style = "background-color: #d4edda; font-weight: bold;"
+        else:
+            row_style = ""
+
+        cells = "".join(
+            f'<td style="padding:6px 10px; border-bottom:1px solid #eee;">{val}</td>'
+            for val in row.values
+        )
+        rows_html += f'<tr style="{row_style}">{cells}</tr>'
+
+    headers = "".join(
+        f'<th style="padding:6px 10px; background-color:#f0f2f6; text-align:left; border-bottom:2px solid #ccc;">{col}</th>'
+        for col in display_df.columns
+    )
+
+    table_html = f"""
+    <div style="overflow-x: auto;">
+    <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+        <thead><tr>{headers}</tr></thead>
+        <tbody>{rows_html}</tbody>
+    </table>
+    </div>
+    """
+
+    st.markdown(table_html, unsafe_allow_html=True)
+
     st.markdown(
-        "🟢 **Green rows** = marker falls **inside** the gene | "
+        "🟢 **Green rows** = marker **overlaps** the gene | "
         "White rows = near marker genes"
     )
 
