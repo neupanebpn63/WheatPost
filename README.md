@@ -15,16 +15,16 @@ After running a GWAS, researchers typically spend hours manually:
 - Checking whether their QTL overlaps with previously published loci
 - Converting gene IDs between reference genome versions
 
-WheatPost automates all three of these tasks in one place, with version-aware handling to prevent coordinate mixing errors between IWGSC RefSeq v1.0 and v2.1.
+WheatPost automates all three tasks in one place, with version-aware handling to prevent coordinate-mixing errors between IWGSC RefSeq v1.0 and v2.1.
 
 ---
 
 ## Features
 
-### 🧬 Tab 1 — QTL Overlap Checker *(coming soon)*
+### 🧬 Tab 1 - QTL Overlap Checker *(coming soon)*
 Check whether your significant GWAS markers overlap with previously published wheat QTL from WheatQTLdb (27,000+ curated QTL). Results are kept strictly separated by reference version to prevent coordinate errors.
 
-### 🔍 Tab 2 — Gene Proximity Search
+### 🔍 Tab 2 - Gene Proximity Search
 Find all annotated genes within a user-defined window (100 kb, 200 kb, or custom) around your significant marker. Supports both single marker input and batch CSV upload for multiple markers simultaneously.
 
 - Powered by IWGSC RefSeq v1.0 and v2.1 High Confidence gene annotation
@@ -32,7 +32,7 @@ Find all annotated genes within a user-defined window (100 kb, 200 kb, or custom
 - Clickable gene IDs link directly to Ensembl Gramene
 - Downloadable CSV output
 
-### 🔄 Tab 3 — Gene ID Liftover
+### 🔄 Tab 3 - Gene ID Liftover
 Convert wheat gene IDs across IWGSC RefSeq versions (v1.0 ↔ v1.1 ↔ v2.1). Supports single gene lookup and batch conversion from a text file or pasted list.
 
 - Based on the official IWGSC all correspondences file
