@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs import tab2_genes
+from tabs import tab2_genes, tab3_liftover
 
 st.set_page_config(
     page_title="WheatPost",
@@ -22,16 +22,15 @@ st.sidebar.info(f"Active: IWGSC RefSeq {version}")
 tab1, tab2, tab3 = st.tabs([
     "🔍 QTL Overlap",
     "🧬 Gene Proximity",
-    "🔄 Coordinate Liftover"
+    "🔄 Gene ID Liftover"
 ])
 
 with tab1:
     st.header("QTL Overlap Checker")
-    st.info("Coming soon — Milestone 2")
+    st.info("Coming soon — waiting for WheatQTLdb data")
 
 with tab2:
     tab2_genes.show(version)
 
 with tab3:
-    st.header("Coordinate Liftover")
-    st.info("Coming soon — Milestone 3")
+    tab3_liftover.show()
