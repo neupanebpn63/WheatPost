@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs import tab2_genes, tab3_liftover
+from tabs import tab1_qtl, tab2_genes, tab3_liftover
 
 st.set_page_config(
     page_title="WheatPost",
@@ -26,8 +26,7 @@ tab1, tab2, tab3 = st.tabs([
 ])
 
 with tab1:
-    st.header("QTL Overlap Checker")
-    st.info("Coming soon — waiting for WheatQTLdb data")
+    tab1_qtl.show()
 
 with tab2:
     tab2_genes.show(version)
