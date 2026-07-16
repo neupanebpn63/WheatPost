@@ -9,8 +9,8 @@ import os
 
 DATABASES = {
     "Wheat annotation (v1.0 + v2.1)": "database/annotation.db",
-    "WheatQTLdb":                      "database/wheat_qtl.db",
-    "Liftover table":                  "database/liftover.db"
+    "WheatQTLdb (QTL records)":        "database/wheat_qtl.db",
+    "Gene ID liftover table":          "database/liftover.db"
 }
 
 def check():
@@ -21,14 +21,15 @@ def check():
     all_ok = True
     for name, path in DATABASES.items():
         if os.path.exists(path):
-            print(f"✅ {name}")
+            size_mb = os.path.getsize(path) / (1024 * 1024)
+            print(f"✅ {name} ({size_mb:.1f} MB)")
         else:
             print(f"❌ {name} — not found at {path}")
             all_ok = False
 
     print("="*50)
     if all_ok:
-        print("✅ All good. Run: streamlit run app.py")
+        print("✅ All databases present. Run: streamlit run app.py")
     else:
         print("⚠️  Missing databases. See README for setup instructions.")
     print("="*50 + "\n")

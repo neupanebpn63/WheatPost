@@ -11,8 +11,9 @@ Built exclusively for *Triticum aestivum* using IWGSC RefSeq v1.0 and v2.1 refer
 ## Why WheatPost?
 
 After running a GWAS, researchers typically spend hours manually:
+
+- Checking whether their significant markers fall within previously published QTL
 - Looking up what genes are near their significant markers
-- Checking whether their QTL overlaps with previously published loci
 - Converting gene IDs between reference genome versions
 
 WheatPost automates all three tasks in one place, with version-aware handling to prevent coordinate-mixing errors between IWGSC RefSeq v1.0 and v2.1.
@@ -21,21 +22,25 @@ WheatPost automates all three tasks in one place, with version-aware handling to
 
 ## Features
 
-### 🧬 Tab 1 - QTL Overlap Checker *(coming soon)*
-Check whether your significant GWAS markers overlap with previously published wheat QTL from WheatQTLdb (27,000+ curated QTL). Results are kept strictly separated by reference version to prevent coordinate errors.
+### 🔍 Tab 1 — QTL Overlap Checker
+Check whether your significant GWAS markers appear in any previously reported wheat QTL. Supports single marker lookup and batch search from a pasted list or uploaded text file. Returns QTL name, species, trait, chromosome, position, and a direct link to the source paper.
 
-### 🔍 Tab 2 - Gene Proximity Search
+- Powered by WheatQTLdb v3.0 (pre-release) — curated QTL records across multiple traits
+- Covers quality traits, selenium content, phosphorous deficiency, phosphorous use efficiency, and fungal resistance
+- More trait data being added as WheatQTLdb v3.0 is finalized
+
+### 🧬 Tab 2 — Gene Proximity Search
 Find all annotated genes within a user-defined window (100 kb, 200 kb, or custom) around your significant marker. Supports both single marker input and batch CSV upload for multiple markers simultaneously.
 
-- Powered by IWGSC RefSeq v1.0 and v2.1 High Confidence gene annotation
+- Powered by IWGSC RefSeq v1.0 and v2.1 High Confidence gene annotation (217,704 genes)
 - Highlights markers that fall directly inside a gene
-- Clickable gene IDs link directly to Ensembl Gramene
+- Clickable gene IDs link directly to Ensembl Gramene (v2.1)
 - Downloadable CSV output
 
-### 🔄 Tab 3 - Gene ID Liftover
+### 🔄 Tab 3 — Gene ID Liftover
 Convert wheat gene IDs across IWGSC RefSeq versions (v1.0 ↔ v1.1 ↔ v2.1). Supports single gene lookup and batch conversion from a text file or pasted list.
 
-- Based on the official IWGSC all correspondences file
+- Based on the official IWGSC all correspondences file (368,659 entries)
 - Clickable v2.1 IDs link to Ensembl Gramene
 - Downloadable CSV output
 
@@ -85,13 +90,22 @@ The app will open automatically in your browser.
 
 ---
 
-## Data Sources
+## Example Input Files
 
-| Data | Source | Version |
-|---|---|---|
-| Gene annotation | IWGSC RefSeq via URGI | v1.0 (2017), v2.1 (2020) |
-| Gene ID correspondence | IWGSC all correspondences via URGI | v1.0, v1.1, v2.1 |
-| QTL database | WheatQTLdb | V2.0 (2022) |
+Example input files for Tab 2 and Tab 3 are provided in the `examples/` folder:
+
+- `examples/example_markers.csv` — for batch marker input in Tab 2
+- `examples/example_genes.txt` — for batch gene ID input in Tab 3
+
+---
+
+## Database Summary
+
+| Database | Source | Size | Records |
+|---|---|---|---|
+| `annotation.db` | IWGSC RefSeq v1.0 + v2.1 via URGI | 22.5 MB | 217,704 genes |
+| `wheat_qtl.db` | WheatQTLdb v3.0 (pre-release) | 0.3 MB | 700+ QTL |
+| `liftover.db` | IWGSC all correspondences via URGI | 57.7 MB | 368,659 entries |
 
 ---
 
@@ -110,6 +124,13 @@ Authors: Helene Rimbert, Frédéric Choulet
 Date: September 2020
 
 ### WheatQTLdb
+Data kindly shared by:
+- Gautam Saripalli, Clemson University
+- Dinesh Saini, Texas A&M University
+- Prof. P.K. Gupta, Emeritus Professor & INSA Honorary Scientist
+
+WheatQTLdb v3.0 manuscript in preparation. Please credit WheatQTLdb when using this data.
+
 Singh K, Saini DK, Saripalli G, Batra R, Gautam T, Singh R, Pal S, Kumar M, Jan I, Singh S, Kumar A, Sharma H, Chaudhary J, Kumar K, Kumar S, Singh VK, Singh VP, Kumar D, Sharma S, Kumar S, Kumar R, Sharma S, Gaurav SS, Sharma PK, Balyan HS, Gupta PK. WheatQTLdb V2.0: a supplement to the database for wheat QTL. Mol Breed. 2022 Sep 16;42(10):56. doi: 10.1007/s11032-022-01329-1. PMID: 37313017; PMCID: PMC10248696.
 
 ---
@@ -118,7 +139,9 @@ Singh K, Saini DK, Saripalli G, Batra R, Gautam T, Singh R, Pal S, Kumar M, Jan 
 
 If you use WheatPost in your research, please cite:
 
-> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. https://github.com/neupanebpn63/WheatPost
+> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. https://github.com/neupanebpn/WheatPost
+
+And please credit WheatQTLdb for QTL data used in Tab 1.
 
 ---
 
