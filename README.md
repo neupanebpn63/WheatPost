@@ -25,7 +25,7 @@ WheatPost automates all three tasks in one place, with version-aware handling to
 ### 🔍 Tab 1 — QTL Overlap Checker
 Check whether your significant GWAS markers appear in any previously reported wheat QTL. Supports single marker lookup and batch search from a pasted list or uploaded text file. Returns QTL name, species, trait, chromosome, position, and a direct link to the source paper.
 
-- Powered by WheatQTLdb v3.0 (pre-release) — curated QTL records across multiple traits
+- Powered by WheatQTLdb v2.0 — 29,000+ curated QTL records across multiple traits
 - Covers quality traits, selenium content, phosphorous deficiency, phosphorous use efficiency, and fungal resistance
 - More trait data being added as WheatQTLdb v3.0 is finalized
 
@@ -104,7 +104,7 @@ Example input files for Tab 2 and Tab 3 are provided in the `examples/` folder:
 | Database | Source | Size | Records |
 |---|---|---|---|
 | `annotation.db` | IWGSC RefSeq v1.0 + v2.1 via URGI | 22.5 MB | 217,704 genes |
-| `wheat_qtl.db` | WheatQTLdb v3.0 (pre-release) | 0.3 MB | 700+ QTL |
+| `wheat_qtl.db` | WheatQTLdb v2.0 | 0.3 MB | 29,000+ QTL |
 | `liftover.db` | IWGSC all correspondences via URGI | 57.7 MB | 368,659 entries |
 
 ---

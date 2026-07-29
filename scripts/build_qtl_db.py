@@ -2,13 +2,13 @@
 WheatPost - Build QTL Database
 ================================
 Run this script ONCE to build the QTL SQLite database
-from the standardized WheatQTLdb master file.
+from the WheatQTLdb v2.0 master file.
 
 Usage:
     python scripts/build_qtl_db.py
 
 Input:
-    data/qtl/wheatqtl_master.xlsx
+    data/qtl/wheatqtl_v2.xlsx
 
 Output:
     database/wheat_qtl.db
@@ -20,23 +20,36 @@ import os
 import re
 
 # ── File paths ────────────────────────────────────────────────
-INPUT_FILE = os.path.join("data", "qtl", "wheatqtl_master.xlsx")
+INPUT_FILE = os.path.join("data", "qtl", "wheatqtl_v2.xlsx")
 DB_PATH = os.path.join("database", "wheat_qtl.db")
 
 # ── Expected columns ──────────────────────────────────────────
 REQUIRED_COLS = [
     "species", "trait", "parameter", "qtl_name",
-    "chromosome", "position", "markers", "link", "reference"
+    "chromosome", "position", "markers", "link"
 ]
 
 
+def normalize_marker(marker: str) -> str:
+    """
+    Normalize a marker name for consistent searching.
+    Removes hyphens, underscores, spaces and lowercases.
+    e.g. wPt-4669, wPt_4669, WPT4669 all become wpt4669
+    """
+    return re.sub(r'[-_\s]', '', marker).lower()
+
+
 def normalize_markers(marker_string: str) -> list:
-    """Split comma-separated marker string into individual markers."""
+    """Split marker string into list of (original, normalized) tuples."""
     if not marker_string or pd.isna(marker_string):
         return []
     marker_string = str(marker_string)
     markers = [m.strip() for m in marker_string.split(",")]
-    return [m for m in markers if m and m != "-"]
+    result = []
+    for m in markers:
+        if m and m != "-" and m != "nan":
+            result.append((m.strip(), normalize_marker(m)))
+    return result
 
 
 def main():
@@ -47,7 +60,7 @@ def main():
     # ── Check input file ──────────────────────────────────────
     if not os.path.exists(INPUT_FILE):
         print(f"❌ File not found: {INPUT_FILE}")
-        print("   Please place wheatqtl_master.xlsx in data/qtl/")
+        print("   Please place wheatqtl_v2.xlsx in data/qtl/")
         return
 
     print(f"Reading: {INPUT_FILE}")
@@ -88,21 +101,21 @@ def main():
             chromosome  TEXT,
             position    TEXT,
             markers     TEXT,
-            link        TEXT,
-            reference   TEXT
+            link        TEXT
         )
     """)
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS marker_qtl (
             marker      TEXT,
+            normalized  TEXT,
             qtl_id      INTEGER,
             FOREIGN KEY (qtl_id) REFERENCES qtl(id)
         )
     """)
 
     cursor.execute(
-        "CREATE INDEX IF NOT EXISTS idx_marker ON marker_qtl (marker)"
+        "CREATE INDEX IF NOT EXISTS idx_normalized ON marker_qtl (normalized)"
     )
     conn.commit()
 
@@ -112,8 +125,8 @@ def main():
     for _, row in df.iterrows():
         cursor.execute("""
             INSERT INTO qtl
-            (species, trait, parameter, qtl_name, chromosome, position, markers, link, reference)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (species, trait, parameter, qtl_name, chromosome, position, markers, link)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             str(row["species"]).strip(),
             str(row["trait"]).strip(),
@@ -122,16 +135,15 @@ def main():
             str(row["chromosome"]).strip(),
             str(row["position"]).strip(),
             str(row["markers"]).strip(),
-            str(row["link"]).strip(),
-            str(row["reference"]).strip()
+            str(row["link"]).strip()
         ))
 
         qtl_id = cursor.lastrowid
 
-        for marker in normalize_markers(str(row["markers"])):
+        for original, normalized in normalize_markers(str(row["markers"])):
             cursor.execute(
-                "INSERT INTO marker_qtl (marker, qtl_id) VALUES (?, ?)",
-                (marker, qtl_id)
+                "INSERT INTO marker_qtl (marker, normalized, qtl_id) VALUES (?, ?, ?)",
+                (original, normalized, qtl_id)
             )
             marker_count += 1
 

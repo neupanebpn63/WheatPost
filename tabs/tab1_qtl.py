@@ -2,7 +2,7 @@
 WheatPost - Tab 1: QTL Overlap Checker
 ========================================
 Search whether a marker appears in any known wheat QTL.
-Uses WheatQTLdb data via qtl_service.py
+Uses WheatQTLdb v2.0 data via qtl_service.py
 """
 
 import streamlit as st
@@ -15,7 +15,11 @@ def show():
     st.markdown(
         "Check whether your significant GWAS markers appear in any "
         "previously reported wheat QTL. Data sourced from "
-        "[WheatQTLdb](http://wheatqtldb.net) v3.0 (pre-release)."
+        "[WheatQTLdb](http://wheatqtldb.net) v2.0."
+    )
+    st.info(
+        "💡 Marker search is flexible — `wPt-4669`, `WPT4669`, and `wpt_4669` "
+        "all return the same results."
     )
     st.divider()
 
@@ -32,8 +36,8 @@ def show():
     if mode == "Single marker":
         marker = st.text_input(
             "Enter marker name",
-            placeholder="e.g. IWB53606",
-            help="Enter the exact marker name as it appears in your GWAS output"
+            placeholder="e.g. IWB53606 or wPt-4669",
+            help="Case insensitive. Hyphens and underscores are ignored."
         )
 
         if st.button("🔍 Search", type="primary"):
@@ -47,8 +51,8 @@ def show():
 
                     if df.empty:
                         st.info(
-                            f"**{marker}** was not found in any QTL record "
-                            "in the current database. This may mean:\n"
+                            f"**{marker}** was not found in any QTL record. "
+                            "This may mean:\n"
                             "- The marker has not been reported in a QTL study yet\n"
                             "- The marker name format differs from what is stored\n"
                             "- More trait data is being added to the database"
@@ -69,7 +73,7 @@ def show():
         st.markdown("**Option A — Paste marker names**")
         pasted = st.text_area(
             "Paste marker names (one per line)",
-            placeholder="IWB53606\nIWB48157\nwPt741599",
+            placeholder="IWB53606\nwPt-4669\nBS00084995_51",
             height=150
         )
 
@@ -100,8 +104,7 @@ def show():
 
                     if df.empty:
                         st.info(
-                            "None of the markers were found in any QTL record. "
-                            "Try checking marker name formats."
+                            "None of the markers were found in any QTL record."
                         )
                     else:
                         found_markers = df["Input Marker"].nunique()
@@ -111,7 +114,6 @@ def show():
                         )
                         _display_results(df, "batch")
 
-                        # CSV download
                         st.divider()
                         csv = df.to_csv(index=False).encode("utf-8")
                         st.download_button(
@@ -128,9 +130,9 @@ def show():
 
     st.divider()
     st.caption(
-        "QTL data from WheatQTLdb v3.0 (pre-release). "
-        "Credits: Saripalli G., Saini D.K., Gupta P.K. et al. "
-        "Data shared for academic use."
+        "QTL data from WheatQTLdb v2.0. "
+        "Singh et al. Mol Breed. 2022. doi:10.1007/s11032-022-01329-1. "
+        "Credits: Saripalli G., Saini D.K., Gupta P.K. et al."
     )
 
 
@@ -139,29 +141,25 @@ def _display_results(df: pd.DataFrame, marker: str):
 
     display_df = df.copy()
 
-    # Make link column clickable
     display_df["Link"] = display_df["Link"].apply(
         lambda url: (
             f'<a href="{url}" target="_blank">🔗 View paper</a>'
-            if url and url != "nan" and url.startswith("http")
+            if url and url != "nan" and str(url).startswith("http")
             else ""
         )
     )
 
-    # Build HTML table
     headers = "".join(
         f'<th style="padding:6px 10px; background-color:#f0f2f6; '
         f'text-align:left; border-bottom:2px solid #ccc;">{col}</th>'
         for col in display_df.columns
-        if col != "Reference"
     )
 
     rows_html = ""
     for _, row in display_df.iterrows():
         cells = "".join(
             f'<td style="padding:6px 10px; border-bottom:1px solid #eee;">{val}</td>'
-            for col, val in row.items()
-            if col != "Reference"
+            for val in row.values
         )
         rows_html += f"<tr>{cells}</tr>"
 
@@ -176,16 +174,6 @@ def _display_results(df: pd.DataFrame, marker: str):
 
     st.markdown(table_html, unsafe_allow_html=True)
 
-    # Reference section below table
-    if "Reference" in df.columns:
-        st.divider()
-        st.markdown("**References**")
-        refs = df["Reference"].dropna().unique()
-        for i, ref in enumerate(refs, 1):
-            if ref and ref != "nan":
-                st.markdown(f"{i}. {ref}")
-
-    # CSV download for single marker
     if marker != "batch":
         st.divider()
         csv = df.to_csv(index=False).encode("utf-8")
