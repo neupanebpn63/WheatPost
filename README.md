@@ -104,7 +104,7 @@ Example input files for Tab 2 and Tab 3 are provided in the `examples/` folder:
 | Database | Source | Size | Records |
 |---|---|---|---|
 | `annotation.db` | IWGSC RefSeq v1.0 + v2.1 via URGI | 22.5 MB | 217,704 genes |
-| `wheat_qtl.db` | WheatQTLdb v2.0 | 0.3 MB | 29,000+ QTL |
+| `wheat_qtl.db` | WheatQTLdb v2.0 | 4.6 MB | 29,000+ QTL |
 | `liftover.db` | IWGSC all correspondences via URGI | 57.7 MB | 368,659 entries |
 
 ---
@@ -129,7 +129,7 @@ Data kindly shared by:
 - Dinesh Saini, Texas A&M University
 - Prof. P.K. Gupta, Emeritus Professor & INSA Honorary Scientist
 
-WheatQTLdb v3.0 manuscript in preparation. Please credit WheatQTLdb when using this data.
+Please credit WheatQTLdb when using this data.
 
 Singh K, Saini DK, Saripalli G, Batra R, Gautam T, Singh R, Pal S, Kumar M, Jan I, Singh S, Kumar A, Sharma H, Chaudhary J, Kumar K, Kumar S, Singh VK, Singh VP, Kumar D, Sharma S, Kumar S, Kumar R, Sharma S, Gaurav SS, Sharma PK, Balyan HS, Gupta PK. WheatQTLdb V2.0: a supplement to the database for wheat QTL. Mol Breed. 2022 Sep 16;42(10):56. doi: 10.1007/s11032-022-01329-1. PMID: 37313017; PMCID: PMC10248696.
 
