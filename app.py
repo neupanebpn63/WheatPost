@@ -14,7 +14,8 @@ st.markdown("**Post-GWAS Analysis Toolkit for Wheat (*Triticum aestivum*)**")
 st.sidebar.title("Settings")
 version = st.sidebar.radio(
     "Select Reference Version",
-    ["v1.0", "v2.1"]
+    ["v1.0", "v2.1"],
+    index=1
 )
 st.sidebar.info(f"Active: IWGSC RefSeq {version}")
 
