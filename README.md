@@ -139,7 +139,7 @@ Singh K, Saini DK, Saripalli G, Batra R, Gautam T, Singh R, Pal S, Kumar M, Jan 
 
 If you use WheatPost in your research, please cite:
 
-> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. https://github.com/neupanebpn/WheatPost
+> Neupane, B. (2026). WheatPost: A post-GWAS analysis toolkit for wheat (*Triticum aestivum*). GitHub. [https://doi.org/10.5281/zenodo.24354936](https://doi.org/10.5281/zenodo.24354936)](https://doi.org/10.5281/zenodo.24354936)
 
 And please credit WheatQTLdb for QTL data used in Tab 1.
 
